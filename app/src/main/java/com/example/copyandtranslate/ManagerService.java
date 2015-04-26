@@ -1,5 +1,6 @@
 package com.example.copyandtranslate;
 
+import android.support.v4.app.NotificationCompat;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -51,7 +52,7 @@ public class ManagerService extends Service {
 
         CharSequence title = getText(R.string.app_name);
         CharSequence subTitle = "Shortcut to " + title;
-        Notification.Builder builder = new Notification.Builder(this)
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.ic_launcher)
                 .setContentTitle(title)
                 .setContentText(subTitle)

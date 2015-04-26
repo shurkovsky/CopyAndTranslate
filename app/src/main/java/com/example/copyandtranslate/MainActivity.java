@@ -18,7 +18,7 @@ public class MainActivity extends ListActivity implements OnCheckedChangeListene
  {
     private CtController mCtController;
 
-    private Switch mActiveSwitch;
+    private Switch mActiveSwitch = null;
     private int mSourceLanguageIndex = -1;
     private int mTargetLanguageIndex = -1;
 
@@ -26,7 +26,7 @@ public class MainActivity extends ListActivity implements OnCheckedChangeListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        
+
     	ActionBar actionBar = getActionBar();
         // add the custom view to the action bar
         actionBar.setCustomView(R.layout.action_bar_layout);

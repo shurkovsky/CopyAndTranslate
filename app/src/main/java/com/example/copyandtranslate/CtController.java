@@ -1,5 +1,6 @@
 package com.example.copyandtranslate;
 
+import android.support.v4.app.NotificationCompat;
 import android.app.Application;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -33,8 +34,8 @@ public class CtController extends Application {
     private Button mToButton;
     private Switch mActiveSwitch;
     private ListView mHistoryListView;
-    private BaseAdapter mHistoryListViewAdapter = null;
-    private Notification.Builder mNotificationBuilder;
+    private BaseAdapter mHistoryListViewAdapter;
+    private NotificationCompat.Builder mNotificationBuilder;
 
     final private int mHistorySizeLimit = 100; // Limit translation history
 
@@ -66,7 +67,8 @@ public class CtController extends Application {
 
     public void UpdateAllViews()
     {
-        mActiveSwitch.setChecked(mCtModel.getActive());
+        if (mActiveSwitch != null)
+            mActiveSwitch.setChecked(mCtModel.getActive());
         mSourceLanguageButton.setText(mCtModel.getSourceLanguageName());
         mTargetLanguageButton.setText(mCtModel.getTargetLanguageName());
     }
@@ -137,7 +139,8 @@ public class CtController extends Application {
         prefsEditor.putBoolean("Active", mCtModel.getActive() );
         prefsEditor.apply();
 
-        mActiveSwitch.setChecked( mCtModel.getActive());
+        if (mActiveSwitch != null)
+            mActiveSwitch.setChecked( mCtModel.getActive());
     }
 
     public ArrayList<HistoryListModel> getHistoryListModelArray() { return mHistoryListModelArray; }
@@ -207,6 +210,6 @@ public class CtController extends Application {
     }
     public void setActiveSwitch(Switch activeSwitch) { mActiveSwitch = activeSwitch; }
     public void setHistoryListViewAdapter(BaseAdapter historyListViewAdapter) { mHistoryListViewAdapter = historyListViewAdapter; }
-    public void setNotificationBuilder(Notification.Builder notificationBuilder) { mNotificationBuilder = notificationBuilder; }
+    public void setNotificationBuilder(NotificationCompat.Builder notificationBuilder) { mNotificationBuilder = notificationBuilder; }
 
 }
