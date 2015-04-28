@@ -35,6 +35,7 @@
         <activity
             android:name="com.example.copyandtranslate.MainActivity"
  			android:theme="@android:style/Theme.Holo.Light"
+            android:uiOptions="splitActionBarWhenNarrow"
         >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

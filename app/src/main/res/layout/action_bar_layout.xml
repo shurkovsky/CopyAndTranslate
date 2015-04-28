@@ -4,7 +4,8 @@
     android:orientation="horizontal"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
-    android:layout_gravity="end">
+    android:layout_gravity="end"
+    android:paddingRight="10dp">
 
     <Switch
         android:layout_width="wrap_content"
