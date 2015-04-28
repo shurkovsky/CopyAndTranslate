@@ -33,7 +33,8 @@ public class ManagerService extends Service {
 
 		ClipboardManager clipboardManager = (ClipboardManager)getSystemService(Context.CLIPBOARD_SERVICE);
         clipboardManager.addPrimaryClipChangedListener(new OnPrimaryClipChangedListener() {
-        	@Override
+
+            @Override
         	public void onPrimaryClipChanged() {
         		showTranslation();
         	}
@@ -67,7 +68,6 @@ public class ManagerService extends Service {
         return START_NOT_STICKY;
     }
 
-
     // called on copy to clipboard event
   	public void showTranslation() {
 		if (!mCtController.getActive())
@@ -76,7 +76,7 @@ public class ManagerService extends Service {
 
         // Show popup window with translation
         Intent intent = new Intent(this, ShowTranslationActivity.class);
-		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
 		startActivity(intent);
 	}
 

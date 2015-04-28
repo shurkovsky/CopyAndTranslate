@@ -52,10 +52,10 @@
         </activity>
 
         <activity
-            android:name="com.example.copyandtranslate.SelectLanguageActivity"
-            android:launchMode="singleInstance"
+            android:name="com.example.copyandtranslate.HelpActivity"
+            android:label="@string/help_activity_title"
             android:excludeFromRecents="true"
-            android:theme="@android:style/Theme.Dialog"
+            android:theme="@android:style/Theme.Holo.Light"
             >
         </activity>
 

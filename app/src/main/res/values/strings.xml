@@ -14,13 +14,12 @@
   	<string name="hello_world">Hello world!</string>
     <string name="emptyHistoryList">No translation history</string>
     <string name="action_clear_history">Clear history</string>
-  	
-<string-array name="spinner_data">
-    <item>One</item>
-    <item>Two</item>
-    <item>Three</item>
-    <item>Four</item>
-</string-array>  	
-    
+    <string name="action_help">Help</string>
+
+    <string name="help_text"></string>
+    <string name="help_activity_title">Copy &amp; Translate Help</string>
+    <string name="helpText1"><![CDATA[\"Copy & Translate\" is used to quickly translate text in any application that supports highlighting and copying of the text to clipboard.]]></string>
+    <string name="helpText2"><![CDATA[\"Copy & Translate\" runs in background and watches the clipboard changes. As soon as new text gets into clipboard \"Copy & Translate\" pops up a window with translation of the text found in clipboard.]]></string>
+    <string name="helpText3">You can test how it works by typing any text in box below and clicking \"Copy to clipboard\" button.</string>
 
 </resources>

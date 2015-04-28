@@ -1,6 +1,7 @@
 package com.example.copyandtranslate;
 
 import android.app.Activity;
+import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -58,9 +59,18 @@ public class ShowTranslationActivity extends Activity {
             @Override
             protected void onPreExecute() {
 
-                ClipboardManager cbm = (ClipboardManager)getSystemService(Context.CLIPBOARD_SERVICE);
-                mClipboardText = (String) cbm.getPrimaryClip().getItemAt(0).getText();
-                mTranslationError = false;
+                try {
+
+                    ClipboardManager cbm = (ClipboardManager)getSystemService(Context.CLIPBOARD_SERVICE);
+                    mClipboardText = cbm.getPrimaryClip().getItemAt(0).getText().toString();
+                    mTranslationError = false;
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    mTranslatedText = e.toString();
+                    mTranslationError = true;
+                }
+
             }
 
             @Override

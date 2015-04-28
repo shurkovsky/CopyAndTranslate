@@ -113,6 +113,12 @@ public class MainActivity extends ListActivity implements OnCheckedChangeListene
              case R.id.action_clear_history:
                  mCtController.clearHistory();
                  return true;
+             case R.id.action_help:
+                 // Show popup window with translation
+                 Intent intent = new Intent(this, HelpActivity.class);
+                 startActivity(intent);
+
+                 return true;
          }
 
          return super.onOptionsItemSelected(item);
