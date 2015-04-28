@@ -146,6 +146,14 @@ public class CtController extends Application {
     public ArrayList<HistoryListModel> getHistoryListModelArray() { return mHistoryListModelArray; }
     public void addTranslationToHistory(String sourceText, String translatedText)
     {
+        // Do not add last translation to history if it is empty or is the same as on the top of the list
+        if (sourceText.isEmpty() ||
+                (mHistoryListModelArray.size() != 0
+                && mHistoryListModelArray.get(0).getSourceText().contentEquals(sourceText)
+                && mHistoryListModelArray.get(0).getTranslatedText().contentEquals(translatedText)
+                ))
+            return;
+
         HistoryListModel m = new HistoryListModel();
         m.setSourceText(sourceText);
         m.setTranslatedText(translatedText);
