@@ -22,4 +22,8 @@
     <string name="helpText2"><![CDATA[\"Copy & Translate\" runs in background and watches the clipboard changes. As soon as new text gets into clipboard \"Copy & Translate\" pops up a window with translation of the text found in clipboard.]]></string>
     <string name="helpText3">You can test how it works by typing any text in box below and clicking \"Copy to clipboard\" button.</string>
 
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
+
 </resources>

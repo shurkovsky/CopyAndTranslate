@@ -1,7 +1,9 @@
 package com.example.copyandtranslate;
 
 import android.app.ActionBar;
+import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -109,12 +111,12 @@ public class MainActivity extends ListActivity implements OnCheckedChangeListene
      public boolean onOptionsItemSelected(MenuItem item) {
 
          switch (item.getItemId()) {
-             // Respond to the action bar's Up/Home button
+             // Respond to the action bar buttons
              case R.id.action_clear_history:
-                 mCtController.clearHistory();
+                 clearHistoryWithConfirmation();
                  return true;
              case R.id.action_help:
-                 // Show popup window with translation
+                 // Show help activity
                  Intent intent = new Intent(this, HelpActivity.class);
                  startActivity(intent);
 
@@ -124,6 +126,27 @@ public class MainActivity extends ListActivity implements OnCheckedChangeListene
          return super.onOptionsItemSelected(item);
      }
 
+     private void clearHistoryWithConfirmation()
+     {
+         if (mCtController.getHistoryListModelArray().size() == 0)
+             return;
+
+         AlertDialog.Builder builder = new AlertDialog.Builder(this);
+         builder.setTitle("Clear Translation History?");
+         builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+             public void onClick(DialogInterface dialog, int id) {
+                 mCtController.clearHistory();
+                 dialog.dismiss();
+             }
+         });
+         builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+             public void onClick(DialogInterface dialog, int id) {
+                 dialog.dismiss();
+             }
+         });
+         AlertDialog dialog = builder.create();
+         dialog.show();
+     }
 
     public void showSelectLanguageDialog(String sourceOrTargetLanguage) {
         SelectLanguageDialogFragment newFragment = new SelectLanguageDialogFragment();

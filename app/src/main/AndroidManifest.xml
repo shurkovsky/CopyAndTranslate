@@ -57,6 +57,7 @@
             android:label="@string/help_activity_title"
             android:excludeFromRecents="true"
             android:theme="@android:style/Theme.Holo.Light"
+            android:windowSoftInputMode="stateHidden"
             >
         </activity>
 
