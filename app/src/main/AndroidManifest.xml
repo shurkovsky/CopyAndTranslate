@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.copyandtranslate"
+    package="com.shurkovsky.copyandtranslate"
     android:versionCode="1"
     android:versionName="1.0" >
     
@@ -12,14 +12,14 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
-        android:name=".CtController"
+        android:name="com.shurkovsky.copyandtranslate.CtController"
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/ic_copy_and_translate_app"
         android:label="@string/app_name"
         >
 
         <receiver android:enabled="true"
-            android:name="com.example.copyandtranslate.OnStartUpBroadcastReceiver"> 
+            android:name="com.shurkovsky.copyandtranslate.OnStartUpBroadcastReceiver">
     		<intent-filter>
             	<action android:name="android.intent.action.BOOT_COMPLETED" />
             	<action android:name="android.intent.action.QUICKBOOT_POWERON" />
@@ -28,12 +28,12 @@
     	</receiver>
     		
     	<service
-            android:name="com.example.copyandtranslate.ManagerService"
+            android:name="com.shurkovsky.copyandtranslate.ManagerService"
             >
 		</service> 
 		
         <activity
-            android:name="com.example.copyandtranslate.MainActivity"
+            android:name="com.shurkovsky.copyandtranslate.MainActivity"
  			android:theme="@android:style/Theme.Holo.Light"
             android:uiOptions="splitActionBarWhenNarrow"
         >
@@ -45,7 +45,7 @@
         
         
         <activity
-            android:name="com.example.copyandtranslate.ShowTranslationActivity"
+            android:name="com.shurkovsky.copyandtranslate.ShowTranslationActivity"
             android:launchMode="singleInstance"
             android:excludeFromRecents="true"
 			android:theme="@android:style/Theme.Dialog" 
@@ -53,7 +53,7 @@
         </activity>
 
         <activity
-            android:name="com.example.copyandtranslate.HelpActivity"
+            android:name="com.shurkovsky.copyandtranslate.HelpActivity"
             android:label="@string/help_activity_title"
             android:excludeFromRecents="true"
             android:theme="@android:style/Theme.Holo.Light"

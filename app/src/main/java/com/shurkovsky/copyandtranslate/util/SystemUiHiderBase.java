@@ -1,4 +1,4 @@
-package com.example.copyandtranslate.util;
+package com.shurkovsky.copyandtranslate.util;
 
 import android.app.Activity;
 import android.view.View;

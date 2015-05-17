@@ -1,4 +1,4 @@
-package com.example.copyandtranslate.util;
+package com.shurkovsky.copyandtranslate.util;
 
 import android.annotation.TargetApi;
 import android.app.Activity;

@@ -1,7 +1,6 @@
-package com.example.copyandtranslate;
+package com.shurkovsky.copyandtranslate;
 
 import android.app.Activity;
-import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.SharedPreferences;

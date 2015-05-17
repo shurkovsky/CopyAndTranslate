@@ -1,4 +1,4 @@
-package com.example.copyandtranslate;
+package com.shurkovsky.copyandtranslate;
 
 import android.app.Activity;
 import android.content.ClipData;

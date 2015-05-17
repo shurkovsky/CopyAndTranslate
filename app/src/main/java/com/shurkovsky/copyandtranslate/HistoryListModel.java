@@ -1,4 +1,4 @@
-package com.example.copyandtranslate;
+package com.shurkovsky.copyandtranslate;
 
 /**
  * Created by Alexander on 4/6/2015.

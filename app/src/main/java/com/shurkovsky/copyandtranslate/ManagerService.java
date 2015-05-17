@@ -1,14 +1,11 @@
-package com.example.copyandtranslate;
+package com.shurkovsky.copyandtranslate;
 
 import android.support.v4.app.NotificationCompat;
-import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.ClipboardManager.OnPrimaryClipChangedListener;
 import android.os.IBinder;
 
@@ -60,12 +57,23 @@ public class ManagerService extends Service {
                 .setAutoCancel(true)
                 .setOngoing(true)
                 .setContentIntent(pbIntent);
+/*
         Notification notification = builder.build();
+
         this.startForeground(1, notification);
+*/
 
         mCtController.setNotificationBuilder(builder);
+        mCtController.updateNotification();
 
-        return START_NOT_STICKY;
+        return START_STICKY;
+    }
+
+    @Override
+    public void onDestroy()
+    {
+        mCtController.hideNotification();
+
     }
 
     // called on copy to clipboard event

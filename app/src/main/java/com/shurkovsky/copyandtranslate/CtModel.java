@@ -1,7 +1,4 @@
-package com.example.copyandtranslate;
-
-import android.content.Context;
-import android.content.SharedPreferences;
+package com.shurkovsky.copyandtranslate;
 
 import com.memetix.mst.language.Language;
 

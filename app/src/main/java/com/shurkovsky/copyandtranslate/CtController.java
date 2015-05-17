@@ -1,8 +1,9 @@
-package com.example.copyandtranslate;
+package com.shurkovsky.copyandtranslate;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v4.app.NotificationCompat;
 import android.app.Application;
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -141,6 +142,55 @@ public class CtController extends Application {
 
         if (mActiveSwitch != null)
             mActiveSwitch.setChecked( mCtModel.getActive());
+
+        // Update Notification
+        updateNotification();
+
+    }
+
+
+    public void showNotification()
+    {
+        if (mNotificationBuilder == null)
+            return;
+
+        mNotificationBuilder.setPriority(1);
+        mNotificationBuilder.setSmallIcon(R.drawable.ic_copy_and_translate_app);
+
+        Bitmap bm = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.ic_copy_and_translate_app),
+                getResources().getDimensionPixelSize(android.R.dimen.notification_large_icon_width),
+                getResources().getDimensionPixelSize(android.R.dimen.notification_large_icon_height),
+                true);
+        mNotificationBuilder.setLargeIcon(bm);
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        notificationManager.notify(1, mNotificationBuilder.build());
+    }
+
+    public void hideNotification()
+    {
+        if (mNotificationBuilder == null)
+            return;
+
+        mNotificationBuilder.setPriority(-2);
+        mNotificationBuilder.setSmallIcon(android.R.color.transparent);
+
+        Bitmap bm = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.ic_copy_and_translate_app),
+                getResources().getDimensionPixelSize(android.R.dimen.notification_large_icon_width),
+                getResources().getDimensionPixelSize(android.R.dimen.notification_large_icon_height),
+                true);
+        mNotificationBuilder.setLargeIcon(bm);
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        notificationManager.notify(1, mNotificationBuilder.build());
+    }
+
+    public void updateNotification()
+    {
+        if (mCtModel.getActive())
+            showNotification();
+        else
+            hideNotification();
     }
 
     public ArrayList<HistoryListModel> getHistoryListModelArray() { return mHistoryListModelArray; }

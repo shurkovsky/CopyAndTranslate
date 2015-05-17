@@ -1,9 +1,8 @@
-package com.example.copyandtranslate;
+package com.shurkovsky.copyandtranslate;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 
 public class OnStartUpBroadcastReceiver extends BroadcastReceiver {
 
