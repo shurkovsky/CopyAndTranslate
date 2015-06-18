@@ -12,6 +12,7 @@ public class OnStartUpBroadcastReceiver extends BroadcastReceiver {
 		if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)){
 
 	        Intent i = new Intent(context, ManagerService.class);
+            i.setAction("StartUpBroadcast");
             context.startService(i);
 
 	    }

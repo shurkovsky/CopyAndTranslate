@@ -12,13 +12,15 @@ public class CtModel {
     private int mSourceLanguageIndex = -1;
     private int mTargetLanguageIndex = -1;
     private boolean mActive = true;
+    private boolean mRunAtStartup = true;
 
-    public CtModel(boolean active, String sourceLanguage, String targetLanguage)
+    public CtModel(boolean runAtStartup, boolean active, String sourceLanguage, String targetLanguage)
     {
         Language.setClientId("CopyAndTranslate");
         Language.setClientSecret("oHnqF1qAHSQwU3CeBoyc1SYTa98jESXP75eYW/zPLjk=");
 
         mActive = active;
+        mRunAtStartup = runAtStartup;
 
         Language[] languages = Language.values();
         int index = 0;
@@ -58,4 +60,7 @@ public class CtModel {
 
     public boolean getActive() { return mActive; }
     public void setActive(boolean active) { mActive = active; }
+
+    public boolean getRunAtStartup() { return mRunAtStartup; }
+    public void setRunAtStartup(boolean runAtStartup) { mRunAtStartup = runAtStartup; }
 }

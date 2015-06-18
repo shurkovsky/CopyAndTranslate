@@ -20,7 +20,8 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/helpText1"
         android:id="@+id/textView"
-        android:layout_weight="0.04" />
+        android:layout_weight="0.04"
+        android:layout_marginBottom="4dp" />
 
     <TextView
         android:layout_width="match_parent"
@@ -28,7 +29,8 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/helpText2"
         android:id="@+id/textView2"
-        android:layout_weight="0.04" />
+        android:layout_weight="0.04"
+        android:layout_marginBottom="4dp" />
 
     <TextView
         android:layout_width="match_parent"

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:id="@+id/custom_notification"
+android:layout_width="fill_parent"
+android:layout_height="fill_parent"
+android:orientation="horizontal">
+
+    <ImageView
+    android:id="@+id/notification_image"
+    android:layout_width="@android:dimen/notification_large_icon_width"
+    android:layout_height="@android:dimen/notification_large_icon_height"
+    android:gravity="center"
+    android:padding="10dp"
+    />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="horizontal"
+        android:baselineAligned="false">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:layout_weight="1">
+
+        <TextView
+        android:id="@+id/notification_source_text"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        style="@style/NotificationTitle"
+            android:layout_weight="1"
+        android:ellipsize="end"
+        android:singleLine="true"
+            android:gravity="bottom" />
+
+        <TextView
+            android:id="@+id/notification_translated_text"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            style="@style/NotificationText"
+            android:gravity="top"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:singleLine="true"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:id="@+id/check_box_on_layout">
+
+        <TextView
+            android:id="@+id/check_box_on_title"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            style="@style/NotificationText"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:text="On"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:id="@+id/check_box_on_imageButton"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:src="@drawable/check_box_button"
+            android:background="@android:color/transparent"
+            android:layout_marginBottom="10dp" />
+
+
+    </LinearLayout>
+
+</LinearLayout>
+
+
+</LinearLayout>
+

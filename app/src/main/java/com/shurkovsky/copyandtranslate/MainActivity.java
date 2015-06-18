@@ -1,12 +1,12 @@
 package com.shurkovsky.copyandtranslate;
 
 import android.app.ActionBar;
-import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ListActivity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -26,6 +26,7 @@ public class MainActivity extends ListActivity implements OnCheckedChangeListene
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.i("SHURIK", "MainActivity.onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -90,9 +91,22 @@ public class MainActivity extends ListActivity implements OnCheckedChangeListene
 		startService(intent);
     }
 
-    @Override
+//     @Override
+//     protected void onStart()
+//     {
+//         super.onStart();
+//         mCtController.updateNotification();
+//     }
+
+     @Override
     public void onDestroy()
     {
+        Log.i("SHURIK", "MainActivity.onDestroy");
+
+        mCtController.setSourceLanguageButton(null);
+        mCtController.setTargetLanguageButton(null);
+        mCtController.setToButton(null);
+        mCtController.setActiveSwitch(null);
         mCtController.setHistoryListViewAdapter(null);
 
         super.onDestroy();
@@ -115,6 +129,9 @@ public class MainActivity extends ListActivity implements OnCheckedChangeListene
              case R.id.action_clear_history:
                  clearHistoryWithConfirmation();
                  return true;
+             case R.id.action_exit:
+                 quitWithConfirmation();
+                 return true;
              case R.id.action_help:
                  // Show help activity
                  Intent intent = new Intent(this, HelpActivity.class);
@@ -126,29 +143,51 @@ public class MainActivity extends ListActivity implements OnCheckedChangeListene
          return super.onOptionsItemSelected(item);
      }
 
+//     private void clearHistoryWithConfirmation()
+//     {
+//         if (mCtController.getHistoryListModelArray().size() == 0)
+//             return;
+//
+//         AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//         builder.setTitle("Clear Translation History?");
+//         builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+//             public void onClick(DialogInterface dialog, int id) {
+//                 mCtController.clearHistory();
+//                 dialog.dismiss();
+//             }
+//         });
+//         builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+//             public void onClick(DialogInterface dialog, int id) {
+//                 dialog.dismiss();
+//             }
+//         });
+//         AlertDialog dialog = builder.create();
+//         dialog.show();
+//     }
+
      private void clearHistoryWithConfirmation()
      {
          if (mCtController.getHistoryListModelArray().size() == 0)
              return;
 
-         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-         builder.setTitle("Clear Translation History?");
-         builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-             public void onClick(DialogInterface dialog, int id) {
+         NoYesDialog dialog = new NoYesDialog(this, new NoYesAdapter() {
+             @Override
+             public void YesHandler(Dialog d) {
                  mCtController.clearHistory();
-                 dialog.dismiss();
              }
          });
-         builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-             public void onClick(DialogInterface dialog, int id) {
-                 dialog.dismiss();
-             }
-         });
-         AlertDialog dialog = builder.create();
+
+         dialog.setTitle(R.string.clearTranslationHistoryTitle);
          dialog.show();
      }
 
-    public void showSelectLanguageDialog(String sourceOrTargetLanguage) {
+     private void quitWithConfirmation()
+     {
+         QuitDialog quitDialog = new QuitDialog(this);
+         quitDialog.show();
+     }
+
+     public void showSelectLanguageDialog(String sourceOrTargetLanguage) {
         SelectLanguageDialogFragment newFragment = new SelectLanguageDialogFragment();
         Bundle bundle = new Bundle();
         bundle.putString("SourceOrTargetLanguage", sourceOrTargetLanguage);

@@ -2,6 +2,7 @@ package com.shurkovsky.copyandtranslate;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.support.v4.app.NotificationCompat;
 import android.app.Application;
 import android.app.NotificationManager;
@@ -9,7 +10,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ListView;
+import android.widget.RemoteViews;
 import android.widget.Switch;
 
 import com.google.gson.Gson;
@@ -25,6 +28,7 @@ import java.util.Arrays;
 
 public class CtController extends Application {
 
+    ManagerService mManagerService;
     private CtModel mCtModel = null;
     private ArrayList<HistoryListModel> mHistoryListModelArray = null;
 
@@ -34,9 +38,12 @@ public class CtController extends Application {
     private Button mTargetLanguageButton;
     private Button mToButton;
     private Switch mActiveSwitch;
+    private CheckBox mRunAtStartupCheckBox;
+
     private ListView mHistoryListView;
     private BaseAdapter mHistoryListViewAdapter;
     private NotificationCompat.Builder mNotificationBuilder;
+    private RemoteViews mNotificationRemoteViews;
 
     final private int mHistorySizeLimit = 100; // Limit translation history
 
@@ -50,6 +57,7 @@ public class CtController extends Application {
         String sourceLanguage = mSharedPrefs.getString("SourceLanguage", "English");
         String targetLanguage = mSharedPrefs.getString("TargetLanguage", "English");
         String historyListModelJson = mSharedPrefs.getString("HistoryList", "");
+        boolean runAtStartup = mSharedPrefs.getBoolean("RunAtStartup", true);
 
         if (true) {
             Gson gson = new Gson();
@@ -63,15 +71,17 @@ public class CtController extends Application {
             mHistoryListModelArray = new ArrayList<HistoryListModel>();
         }
 
-        mCtModel = new CtModel(active, sourceLanguage, targetLanguage);
-     }
+        mCtModel = new CtModel(runAtStartup, active, sourceLanguage, targetLanguage);
+    }
 
     public void UpdateAllViews()
     {
         if (mActiveSwitch != null)
             mActiveSwitch.setChecked(mCtModel.getActive());
-        mSourceLanguageButton.setText(mCtModel.getSourceLanguageName());
-        mTargetLanguageButton.setText(mCtModel.getTargetLanguageName());
+        if (mSourceLanguageButton != null)
+            mSourceLanguageButton.setText(mCtModel.getSourceLanguageName());
+        if (mTargetLanguageButton != null)
+            mTargetLanguageButton.setText(mCtModel.getTargetLanguageName());
     }
 
     public ArrayList<String> getLanguageNames() { return mCtModel.getLanguageNames(); }
@@ -140,33 +150,65 @@ public class CtController extends Application {
         prefsEditor.putBoolean("Active", mCtModel.getActive() );
         prefsEditor.apply();
 
-        if (mActiveSwitch != null)
+        if(mActiveSwitch != null)
             mActiveSwitch.setChecked( mCtModel.getActive());
+
+        if (mNotificationRemoteViews != null)
+        {
+            mNotificationRemoteViews.setBitmap(R.id.check_box_on_imageButton, "setImageBitmap", BitmapFactory.decodeResource(getResources(),
+                    mCtModel.getActive() ? R.drawable.btn_check_on : R.drawable.btn_check_off ));
+        }
 
         // Update Notification
         updateNotification();
 
     }
+    public void toggleActive()
+    {
+        setActive(!getActive());
+    }
 
+    public void refreshActive()
+    {
+        setActive(getActive());
+    }
+
+    public boolean getRunAtStartup() { return mCtModel.getRunAtStartup(); }
+    public void setRunAtStartup(boolean active)
+    {
+        mCtModel.setRunAtStartup(active);
+
+        // Change preferences
+        SharedPreferences.Editor prefsEditor = mSharedPrefs.edit();
+        prefsEditor.putBoolean("RunAtStartup", mCtModel.getRunAtStartup() );
+        prefsEditor.apply();
+
+        if(mRunAtStartupCheckBox != null)
+            mRunAtStartupCheckBox.setChecked( mCtModel.getRunAtStartup());
+    }
+
+    public void toggleRunAtStartup()
+    {
+        setRunAtStartup(!getRunAtStartup());
+    }
+    public void refreshRunAtStartup()
+    {
+        setRunAtStartup(getRunAtStartup());
+    }
 
     public void showNotification()
     {
         if (mNotificationBuilder == null)
             return;
 
-        mNotificationBuilder.setPriority(1);
         mNotificationBuilder.setSmallIcon(R.drawable.ic_copy_and_translate_app);
-
-        Bitmap bm = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.ic_copy_and_translate_app),
-                getResources().getDimensionPixelSize(android.R.dimen.notification_large_icon_width),
-                getResources().getDimensionPixelSize(android.R.dimen.notification_large_icon_height),
-                true);
-        mNotificationBuilder.setLargeIcon(bm);
+        mNotificationRemoteViews.setImageViewResource(R.id.notification_image, R.drawable.ic_copy_and_translate_app);
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         notificationManager.notify(1, mNotificationBuilder.build());
     }
 
+/*
     public void hideNotification()
     {
         if (mNotificationBuilder == null)
@@ -183,6 +225,23 @@ public class CtController extends Application {
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         notificationManager.notify(1, mNotificationBuilder.build());
+    }
+*/
+
+    public void hideNotification()
+    {
+        if (mNotificationBuilder == null)
+            return;
+
+        mNotificationBuilder.setSmallIcon(R.drawable.ic_copy_and_translate_app_disabled);
+        mNotificationRemoteViews.setImageViewResource(R.id.notification_image, R.drawable.ic_copy_and_translate_app_disabled);
+        Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.ic_copy_and_translate_app_disabled);
+        mNotificationBuilder.setLargeIcon(bm);
+
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        notificationManager.notify(1, mNotificationBuilder.build());
+
     }
 
     public void updateNotification()
@@ -227,9 +286,9 @@ public class CtController extends Application {
             mHistoryListViewAdapter.notifyDataSetChanged();
 
         // Update Notification
-        if (mNotificationBuilder != null) {
-            mNotificationBuilder.setContentTitle(sourceText);
-            mNotificationBuilder.setContentText(translatedText);
+        if (mNotificationRemoteViews != null) {
+            mNotificationRemoteViews.setTextViewText(R.id.notification_source_text, sourceText);
+            mNotificationRemoteViews.setTextViewText(R.id.notification_translated_text, translatedText);
 
             NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
             notificationManager.notify(1, mNotificationBuilder.build());
@@ -254,6 +313,23 @@ public class CtController extends Application {
             mHistoryListViewAdapter.notifyDataSetChanged();
     }
 
+    public void quit()
+    {
+        // Remove notification
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        notificationManager.cancel(1);
+
+        // Stop service
+        mManagerService.stopSelf();
+
+        // Close activity translation activity which could be opened
+
+        // kill process
+        int p = android.os.Process.myPid();
+        android.os.Process.killProcess(p);
+        System.exit(0);
+    }
+
     public void setSourceLanguageButton(Button b)
     {
         mSourceLanguageButton = b;
@@ -267,7 +343,11 @@ public class CtController extends Application {
         mToButton = b;
     }
     public void setActiveSwitch(Switch activeSwitch) { mActiveSwitch = activeSwitch; }
+    public void setRunAtStartupCheckBox(CheckBox runAtStartupCheckBox) { mRunAtStartupCheckBox = runAtStartupCheckBox; }
     public void setHistoryListViewAdapter(BaseAdapter historyListViewAdapter) { mHistoryListViewAdapter = historyListViewAdapter; }
     public void setNotificationBuilder(NotificationCompat.Builder notificationBuilder) { mNotificationBuilder = notificationBuilder; }
+    public void setNotificationRemoteViews(RemoteViews remoteViews) { mNotificationRemoteViews = remoteViews; }
+    public void setManagerservice(ManagerService service) { mManagerService = service; }
+
 
 }
